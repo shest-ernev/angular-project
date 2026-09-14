@@ -1,6 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TuiButton, TuiDialog, TuiInput } from '@taiga-ui/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TuiButton, TuiDialog, TuiDialogService, TuiInput } from '@taiga-ui/core';
+import { TUI_CONFIRM } from '@taiga-ui/kit';
 
 import { Product } from '../../shared/types';
 import { CartStoreService, ProductsStoreService } from '../../shared/services';
@@ -14,14 +15,15 @@ import { CartStoreService, ProductsStoreService } from '../../shared/services';
 export class ProductActions {
   readonly product = input.required<Product>();
   protected readonly open = signal(false);
-  private formBuilder = inject(NonNullableFormBuilder);
+  private formBuilder = inject(FormBuilder);
   protected productStore = inject(ProductsStoreService);
   private cartStore = inject(CartStoreService);
+  private dialogs = inject(TuiDialogService);
 
   protected form = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(1)]],
-    price: [0, [Validators.required, Validators.min(1)]],
-    vat: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+    price: [null as number | null, [Validators.required, Validators.min(1)]],
+    vat: [null as number | null, [Validators.required, Validators.min(0), Validators.max(100)]],
   });
 
   protected handleEdit() {
@@ -42,12 +44,39 @@ export class ProductActions {
       return;
     }
 
-    this.productStore.editProduct(this.product().id, this.form.getRawValue());
+    const values = this.form.getRawValue();
+
+    if (values.name === null || values.price === null || values.vat === null) {
+      return;
+    }
+
+    this.productStore.editProduct(this.product().id, {
+      name: values.name,
+      price: values.price,
+      vat: values.vat,
+    });
     this.open.set(false);
   }
 
   protected handleDelete() {
-    this.productStore.delProduct(this.product().id);
+    const product = this.product();
+
+    this.dialogs
+      .open<boolean>(TUI_CONFIRM, {
+        label: 'Удалить товар?',
+        size: 'm',
+        data: {
+          content: `Товар «${product.name}» будет удален без возможности восстановления.`,
+          yes: 'Удалить',
+          no: 'Отмена',
+          appearance: ['negative', 'secondary'],
+        },
+      })
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.productStore.delProduct(product.id);
+        }
+      });
   }
 
   protected inCart() {

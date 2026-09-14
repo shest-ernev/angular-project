@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TuiButton, TuiDialog, TuiInput } from '@taiga-ui/core';
-import { NonNullableFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { ProductsStoreService } from '../../shared/services';
 
@@ -13,13 +13,13 @@ import { ProductsStoreService } from '../../shared/services';
 })
 export class CreateProduct {
   protected readonly open = signal(false);
-  private formBuilder = inject(NonNullableFormBuilder);
+  private formBuilder = inject(FormBuilder);
   protected productsStore = inject(ProductsStoreService);
 
   protected form = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(1)]],
-    price: [0, [Validators.required, Validators.min(1)]],
-    vat: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+    price: [null as number | null, [Validators.required, Validators.min(1)]],
+    vat: [null as number | null, [Validators.required, Validators.min(0), Validators.max(100)]],
   });
 
   protected handleSubmit() {
@@ -31,11 +31,17 @@ export class CreateProduct {
 
     const values = this.form.getRawValue();
 
+    if (values.name === null || values.price === null || values.vat === null) {
+      return;
+    }
+
     this.productsStore.addProduct({
       name: values.name,
       price: values.price,
       vat: values.vat,
     });
+
+    this.form.reset({ name: '', price: null, vat: null });
 
     this.open.set(false);
   }

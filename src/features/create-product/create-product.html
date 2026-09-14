@@ -1,9 +1,9 @@
-<button tuiButton size="m" appearance="primary" (click)="open.set(true)">Создать товар</button>
+<button tuiButton size="m" appearance="primary" (click)="open.set(true)">Добавить товар</button>
 
 <ng-template
   [tuiDialog]="open()"
   (tuiDialogChange)="open.set($event)"
-  [tuiDialogOptions]="{ label: 'Создать товар' }"
+  [tuiDialogOptions]="{ label: 'Добавить товар' }"
 >
   <form class="form" [formGroup]="form" (ngSubmit)="handleSubmit()">
     <div class="field">
