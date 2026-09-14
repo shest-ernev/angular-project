@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { routes } from '../shared/configs';
-import { LoginPage, CatalogPage, PurchasePage } from '../pages';
+import { LoginPage, CatalogPage, PurchasePage, NotFoundPage } from '../pages';
 import { authGuard } from '../shared/guards';
 
 export const appRoutes: Routes = [
@@ -22,5 +22,10 @@ export const appRoutes: Routes = [
     path: routes.purchase,
     component: PurchasePage,
     canActivate: [authGuard],
+  },
+  {
+    title: ':(',
+    path: '**',
+    component: NotFoundPage,
   },
 ];
