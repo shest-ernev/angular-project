@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  background: none;
+  border: none;
+  resize: none;
+  box-sizing: border-box;
+  font-family: 'Circe';
+  -webkit-tap-highlight-color: transparent;
+  color: var(--tui-text-primary);
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input::-moz-search-clear-button {
+  display: none;
+}
+
+input::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}

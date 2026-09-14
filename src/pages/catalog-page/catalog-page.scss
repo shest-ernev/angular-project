@@ -1,0 +1,100 @@
+.main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 5.625rem 1rem 2.5rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.title-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 2.125rem;
+  font-weight: 700;
+}
+
+.table-container {
+  width: 100%;
+  height: max-content;
+}
+
+.table-scrollbar {
+  width: 100%;
+}
+
+.products-table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+  text-align: left;
+
+  th,
+  td {
+    padding: 1rem;
+  }
+
+  th {
+    background-color: var(--tui-background-neutral-1);
+    color: var(--tui-text-secondary);
+    font-size: 1rem;
+    font-weight: 700;
+
+    &:last-child {
+      border-radius: 0 0.625rem 0.625rem 0;
+    }
+
+    &:first-child {
+      border-radius: 0.625rem 0 0 0.625rem;
+    }
+  }
+
+  td {
+    border-bottom: 0.0625rem solid var(--tui-border-normal);
+  }
+}
+
+.actions {
+  width: max-content;
+  white-space: nowrap;
+}
+
+@media (max-width: 40rem) {
+  .title-container {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .products-table {
+    min-width: 34rem;
+
+    th,
+    td {
+      padding: 0.75rem;
+    }
+  }
+
+  .main {
+    padding: 5.625rem 0 2.5rem 0;
+  }
+
+  .title-container {
+    padding: 0 1rem;
+  }
+
+  .table-scrollbar {
+    padding: 0 1rem;
+  }
+}

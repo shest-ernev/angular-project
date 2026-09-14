@@ -1,0 +1,42 @@
+<button
+  tuiButton
+  size="s"
+  tuiDropdownAlign="end"
+  [tuiDropdown]="dropdownContent"
+  [(tuiDropdownOpen)]="open"
+>
+  Корзина {{ cartStore.getCartLength() }}
+  <ng-template #dropdownContent>
+    @if (cartStore.getCartLength() === '') {
+      <div class="cart">
+        <span class="empty"> Корзина пуста </span>
+      </div>
+    } @else {
+      <div class="cart">
+        <div class="all">
+          <span class="cart-price">{{ cartStore.getCartPrice() }} ₽</span>
+          <button tuiButton appearance="primary" size="s" (click)="handleBuy()">Купить</button>
+        </div>
+        <div class="cart-items">
+          @for (cartItem of cartStore.getCartItems(); track cartItem.id) {
+            <div class="cart-item">
+              <span class="cart-item-name">{{ cartItem.name }}</span>
+              <span class="param">НДС: {{ cartItem.vat }}%</span>
+              <div class="cart-item-actions">
+                <span class="cart-item-price">{{ cartItem.price }} ₽</span>
+                <button
+                  tuiButton
+                  appearance="negative"
+                  size="s"
+                  (click)="cartStore.updateCart(cartItem)"
+                >
+                  Удалить
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </ng-template>
+</button>

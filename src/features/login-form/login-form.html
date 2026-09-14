@@ -1,0 +1,30 @@
+<form class="form" [formGroup]="form" (ngSubmit)="handleSubmit()">
+  <div class="inputs">
+    <div class="field">
+      <tui-textfield>
+        <input placeholder="Введите логин..." tuiInput formControlName="login" />
+      </tui-textfield>
+      @if (form.controls.login.touched && form.controls.login.hasError('required')) {
+        <span class="field-error">Обязательное поле</span>
+      }
+    </div>
+    <div class="field">
+      <tui-textfield>
+        <input
+          placeholder="Введите пароль..."
+          tuiInput
+          type="password"
+          formControlName="password"
+        />
+      </tui-textfield>
+      @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+        <span class="field-error">Обязательное поле</span>
+      } @else if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+        <span class="field-error">Минимальная длина пароля — 8 символов</span>
+      } @else if (form.controls.password.touched && form.controls.password.hasError('pattern')) {
+        <span class="field-error">Пароль может содержать только латинские буквы и цифры</span>
+      }
+    </div>
+  </div>
+  <button tuiButton appearance="primary" type="submit">Войти</button>
+</form>

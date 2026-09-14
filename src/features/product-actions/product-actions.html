@@ -1,0 +1,55 @@
+<div class="actions">
+  <button tuiButton appearance="negative" size="s" (click)="handleDelete()">Удалить</button>
+  <button tuiButton appearance="secondary" size="s" (click)="handleEdit()">Изменить</button>
+  <button tuiButton appearance="secondary" size="s" (click)="handleToCart()">
+    {{ inCart() ? 'Удалть из корзины' : 'Добавить в корзину' }}
+  </button>
+</div>
+
+<ng-template
+  [tuiDialog]="open()"
+  (tuiDialogChange)="open.set($event)"
+  [tuiDialogOptions]="{ label: 'Редактировать товар' }"
+>
+  <form class="form" [formGroup]="form" (ngSubmit)="handleSubmit()">
+    <div class="field">
+      <tui-textfield>
+        <input tuiInput placeholder="Название товара" formControlName="name" />
+      </tui-textfield>
+      @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+        <span class="field-error">Обязательное поле</span>
+      }
+    </div>
+    <div class="form-row">
+      <div class="field">
+        <tui-textfield>
+          <input tuiInput type="number" min="0" placeholder="Цена" formControlName="price" />
+        </tui-textfield>
+        @if (form.controls.price.touched && form.controls.price.invalid) {
+          <span class="field-error">Обязательное поле</span>
+        }
+      </div>
+      <div class="field">
+        <tui-textfield>
+          <input
+            tuiInput
+            type="number"
+            min="0"
+            max="100"
+            placeholder="НДС, %"
+            formControlName="vat"
+          />
+        </tui-textfield>
+        @if (form.controls.vat.touched && form.controls.vat.invalid) {
+          <span class="field-error">Обязательное поле</span>
+        }
+      </div>
+    </div>
+    <div class="form-actions">
+      <button tuiButton appearance="secondary" type="button" (click)="open.set(false)">
+        Отмена
+      </button>
+      <button tuiButton appearance="primary" type="submit">Сохранить</button>
+    </div>
+  </form>
+</ng-template>

@@ -1,0 +1,83 @@
+<header class="header">
+  <div class="header-container">
+    <span class="logo-text">SHOP</span>
+    @if (getAuth()) {
+      <div class="right">
+        <button tuiButton appearance="secondary" class="burger" (click)="handleChangeOpenBurger()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="navigation">
+          <ul class="navigation-list">
+            @for (link of links; track link.href) {
+              <li class="navigation-list-item">
+                <a
+                  [routerLink]="link.href"
+                  routerLinkActive="navigation-list-link-active"
+                  class="navigation-list-link"
+                >
+                  {{ link.name }}
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+        <cart />
+        <button
+          tuiButton
+          size="s"
+          appearance="negative"
+          class="log-out-btn"
+          (click)="handleLogOut()"
+        >
+          Выйти
+        </button>
+      </div>
+    }
+  </div>
+</header>
+
+<div class="burger-menu-container" [class.burger-menu-container-open]="isBurderOpen()">
+  <div class="burger-menu">
+    <div class="burder-overlay" (click)="handleChangeOpenBurger()"></div>
+    <div class="burder-menu-list" [class.burder-menu-list-open]="isBurderOpen()">
+      <div class="burder-top">
+        <button
+          tuiButton
+          appearance="secondary"
+          class="burger-close-btn"
+          size="m"
+          (click)="handleChangeOpenBurger()"
+        >
+          ❌
+        </button>
+        <nav class="burder-navigation">
+          <ul class="navigation-list">
+            @for (link of links; track link.href) {
+              <li class="navigation-list-item">
+                <a
+                  [routerLink]="link.href"
+                  routerLinkActive="navigation-list-link-active"
+                  class="navigation-list-link"
+                  (click)="handleChangeOpenBurger()"
+                >
+                  {{ link.name }}
+                </a>
+              </li>
+            }
+          </ul>
+        </nav>
+      </div>
+      <button
+        tuiButton
+        size="m"
+        appearance="negative"
+        class="log-out-btn-burger"
+        (click)="handleLogOut()"
+      >
+        Выйти
+      </button>
+    </div>
+  </div>
+</div>
